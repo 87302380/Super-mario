@@ -1,33 +1,47 @@
 
-function drawBackground(background, context, sprites) {
-    background.ranges.forEach(([x1, x2, y1, y2]) =>{
-        for (let x = x1; x<x2; x++){
-            for (let y = y1;y<y2;y++){
-                sprites.drawTile(background.tile,context,x,y);
-            }
-        }
-    });
-}
 
 var canvas = document.getElementById("screen");
 var context = canvas.getContext("2d");
 
-loadImage("img/tile.png").then(image =>{
-
-    var sprites = new SpriteSheet(image, 16, 16);
-    sprites.define("ground", 0, 0);
-    sprites.define("sky", 3, 23);
-
-    loadLevel("1").then(level => {
-        // console.log(level.backgrounds[0]);
-        level.backgrounds.forEach(tile =>{
-            drawBackground(tile, context, sprites);
-        })
-
-    });
+function createSpritesLayer(sprites, pos){
+    return function drawSpritesLayer(context) {
+        for (let i = 0; i<20; i++){
+            sprites.draw("mario", context, pos.x+i, pos.y+i);
+        }
+    };
+}
 
 
+Promise.all([
+    loadMarioSprites(),
+    loadBackgroundSprites(),
+    loadLevel("1"),
+]).then(([marioSprites,backgroundsprites,level])=> {
 
+        var compositor = new Compositor();
+        var backgroundLayer = createBackgroundLayer(level.backgrounds, backgroundsprites);
+        compositor.layers.push(backgroundLayer);
 
+        var pos = {
+            x : 1,
+            y : 5,
+        };
+
+        var spritesLayer = createSpritesLayer(marioSprites, pos);
+        compositor.layers.push(spritesLayer);
+
+        function update(){
+            compositor.draw(context);
+            pos.x +=2;
+            pos.y +=2;
+            requestAnimationFrame(update);
+        }
+        update();
 });
+
+
+
+
+
+
 
