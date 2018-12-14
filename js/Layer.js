@@ -9,6 +9,8 @@ function drawBackground(background, context, sprites) {
 }
 
 
+//在这里调整画面的大小
+
 function createBackgroundLayer(backgrounds, sprites){
     var Buffer = document.createElement("canvas");
     Buffer.width = 600;
@@ -22,3 +24,8 @@ function createBackgroundLayer(backgrounds, sprites){
     }
 }
 
+function createSpritesLayer(entity){
+    return function drawSpritesLayer(context) {
+        entity.draw(context);
+    };
+}
