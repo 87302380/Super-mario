@@ -3,22 +3,16 @@ var canvas = document.getElementById("screen");
 var context = canvas.getContext("2d");
 
 
-
 Promise.all([
     creatMario(),
-    loadBackgroundSprites(),
     loadLevel("1"),
-]).then(([mario,backgroundsprites,level])=> {
-
-        var compositor = new Compositor();
-
-        var backgroundLayer = createBackgroundLayer(level.backgrounds, backgroundsprites);
-        compositor.layers.push(backgroundLayer);
+]).then(([mario,level])=> {
 
         var gravity = 40; //重力 影响跳跃的高度
         mario.pos.set(100, 380);            //马里奥生成的初始位置
         mario.vel.set(2 , -10);             //马里奥跳跃的距离高度设置
 
+        level.entites.add(mario);
 
         var SPACE = 32;
         var input = new keyboard();
@@ -32,17 +26,23 @@ Promise.all([
         });
         input.lisenTo(window);
 
-        var spritesLayer = createSpritesLayer(mario);
-        compositor.layers.push(spritesLayer);
+        ['mousedown', 'mousemove'].forEach(eventN =>{
+            canvas.addEventListener(eventN, event =>{
+                if (event.buttons === 1){
+                    mario.vel.set(0,0);
+                    mario.pos.set(event.offsetX, event.offsetY);
+                }
+            });
+        });
 
         var timer = new Timer(1/60);
 
         timer.update = function update(deltaTime){
 
-            mario.update(deltaTime);
-            compositor.draw(context);
+            level.update(deltaTime);
+            level.comp.draw(context);
             mario.vel.y += gravity * deltaTime;
-        }
+        };
 
         timer.start();
 });
