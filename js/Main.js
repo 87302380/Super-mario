@@ -8,22 +8,14 @@ Promise.all([
     loadLevel("1"),
 ]).then(([mario,level])=> {
 
-        var gravity = 40; //重力 影响跳跃的高度
-        mario.pos.set(100, 380);            //马里奥生成的初始位置
+        mario.pos.set(100, 400);            //马里奥生成的初始位置
         mario.vel.set(2 , -10);             //马里奥跳跃的距离高度设置
+
+        createCollisionLayer(level);
 
         level.entites.add(mario);
 
-        var SPACE = 32;
-        var input = new keyboard();
-        input.addMapping(SPACE, keyState => {
-            if (keyState){
-                console.log("test1");
-                mario.jump.start();
-            }else{
-                mario.jump.cancel();
-            }
-        });
+        var input = setupKeyboard(mario);
         input.lisenTo(window);
 
         ['mousedown', 'mousemove'].forEach(eventN =>{
@@ -41,7 +33,6 @@ Promise.all([
 
             level.update(deltaTime);
             level.comp.draw(context);
-            mario.vel.y += gravity * deltaTime;
         };
 
         timer.start();

@@ -2,8 +2,8 @@ class Jump extends Trait{
     constructor() {
         super("jump");
 
-        this.duration = 0.5;
-        this.velocity = 5;
+        this.duration = 0.1;
+        this.velocity = 30;
         this.engageTime = 0;
     }
 
@@ -16,7 +16,6 @@ class Jump extends Trait{
     }
 
     update(entity, deltaTime){
-        entity.pos.x += 1;
         if (this.engageTime > 0){
             entity.vel.y = -this.velocity;
             this.engageTime -= deltaTime;
@@ -24,12 +23,27 @@ class Jump extends Trait{
     }
 }
 
-class Velocity extends Trait{
+class Go extends Trait{
     constructor() {
-        super("velocity");
+        super("go");
+
+        this.dir = 0;
+        this.speed = 1000;
     }
 
     update(entity, deltaTime){
-        entity.pos.y += entity.vel.y ;
+        entity.vel.x = this.speed * this.dir * deltaTime;
     }
 }
+
+// class Velocity extends Trait{
+//     constructor() {
+//         super("velocity");
+//     }
+//
+//     update(entity, deltaTime){
+//         entity.pos.x += entity.vel.x * deltaTime*10 ;
+//         entity.pos.y += entity.vel.y * deltaTime*10 ;
+//     }
+// }
+
