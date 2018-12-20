@@ -36,14 +36,3 @@ class Go extends Trait{
     }
 }
 
-// class Velocity extends Trait{
-//     constructor() {
-//         super("velocity");
-//     }
-//
-//     update(entity, deltaTime){
-//         entity.pos.x += entity.vel.x * deltaTime*10 ;
-//         entity.pos.y += entity.vel.y * deltaTime*10 ;
-//     }
-// }
-

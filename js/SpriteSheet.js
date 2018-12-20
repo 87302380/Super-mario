@@ -35,6 +35,6 @@ class SpriteSheet{
     }
 
     drawTile(name, context, x, y){
-        this.draw(name, context, x*this.width, y*this.height);
+        this.draw(name, context, x * this.width, y * this.height);
     }
 }

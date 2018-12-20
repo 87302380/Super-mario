@@ -8,31 +8,33 @@ Promise.all([
     loadLevel("1"),
 ]).then(([mario,level])=> {
 
-        mario.pos.set(100, 400);            //马里奥生成的初始位置
+        var camera = new Camera();
+        window.camera = camera;
+
+        mario.pos.set(16, 0);            //马里奥生成的初始位置
         mario.vel.set(2 , -10);             //马里奥跳跃的距离高度设置
 
         createCollisionLayer(level);
 
         level.entites.add(mario);
 
+
+        setupMouseControl(canvas, mario, camera);
         var input = setupKeyboard(mario);
         input.lisenTo(window);
 
-        ['mousedown', 'mousemove'].forEach(eventN =>{
-            canvas.addEventListener(eventN, event =>{
-                if (event.buttons === 1){
-                    mario.vel.set(0,0);
-                    mario.pos.set(event.offsetX, event.offsetY);
-                }
-            });
-        });
 
         var timer = new Timer(1/60);
 
         timer.update = function update(deltaTime){
 
             level.update(deltaTime);
-            level.comp.draw(context);
+
+            if (mario.pos.x > 100){
+                camera.pos.x = mario.pos.x - 100;
+            }
+
+            level.comp.draw(context, camera);
         };
 
         timer.start();

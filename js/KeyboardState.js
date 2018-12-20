@@ -12,10 +12,10 @@ function setupKeyboard(entity) {
         }
     });
     input.addMapping(39, keyState => {   //right is 39
-        entity.go.dir = keyState;
+        entity.go.dir += keyState ? 1 : -1;
     });
     input.addMapping(37, keyState => {  //left is 37
-        entity.go.dir = -keyState;
+        entity.go.dir += -keyState ? -1 : 1;
     });
     return input;
 }
