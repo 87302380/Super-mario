@@ -1,24 +1,61 @@
-//在这里调整画面的大小
+
 function createBackgroundLayer(level, sprites){
+    var tiles = level.tiles;
+    var resolver =level.tileCollider.tiles;
+
     var Buffer = document.createElement("canvas");
-    Buffer.width = 600;
+    Buffer.width = 512 + 16; //只提前加载一格
     Buffer.height = 480;
 
     var context = Buffer.getContext("2d");
 
-    level.tiles.forEach((tile, x, y) => {
-        sprites.drawTile(tile.name,context,x, y);
-    });
+    let startIndex, endIndex;
+    function redraw(drawFrom, drawTo){
+        if (drawFrom === startIndex && drawTo === endIndex){
+            return;
+        }
 
-    return function drowBackgroundLayer(context) {
-        context.drawImage(Buffer, 0, 0);
+        startIndex = drawFrom;
+        endIndex = drawTo;
+
+        for (let x = startIndex; x<= endIndex; x++){
+            var col = tiles.grid[x];
+            if (col){
+                col.forEach((tile, y) =>{
+                    sprites.drawTile(tile.name, context, x - startIndex, y);
+                });
+            }
+        }
     }
+
+    return function drowBackgroundLayer(context, camera) {
+        var drawWidth = resolver.toIndex(camera.size.x);
+        var drawFrom = resolver.toIndex(camera.pos.x);
+        var drawTo = drawFrom + drawWidth;
+        redraw(drawFrom, drawTo);
+
+        context.drawImage(Buffer, -camera.pos.x % 16 , -camera.pos.y);
+    };
 }
 
-function createSpritesLayer(entities){
+function createSpritesLayer(entities, width = 64, height = 64){
+
+    var spritBuffer = document.createElement("canvas");
+    spritBuffer.width = width;
+    spritBuffer.height = height;
+
+    var spritBufferContext = spritBuffer.getContext("2d");
+
     return function drawSpritesLayer(context) {
         entities.forEach(entity =>{
-            entity.draw(context);
+            spritBufferContext.clearRect(0, 0, width, height);
+
+            entity.draw(spritBufferContext);
+
+            context.drawImage(
+                spritBuffer,
+                entity.pos.x - camera.pos.x,
+                entity.pos.y - camera.pos.y);
         });
 
     };
