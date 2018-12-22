@@ -11,7 +11,7 @@ Promise.all([
         var camera = new Camera();
         window.camera = camera;
 
-        mario.pos.set(16, 0);            //马里奥生成的初始位置
+       // mario.pos.set(16, 0);            //马里奥生成的初始位置
         mario.vel.set(2 , -10);             //马里奥跳跃的距离高度设置
 
         createCollisionLayer(level);
