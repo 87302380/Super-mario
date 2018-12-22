@@ -1,19 +1,21 @@
 
 function creatMario() {
 
-    return loadMarioSprites()
-        .then(sprite => {
-            var mario = new Entity();
+        return loadSpritSheet('mario')
+            .then(sprite => {
 
-            mario.size.set(16, 16);
+                var mario = new Entity();
 
-            mario.addtrait(new Go());
-            mario.addtrait(new Jump());
+                mario.size.set(16, 16);
 
-            mario.draw = function drawMario(context){
-                sprite.draw("mario", context, 0, 0);
-            };
+                mario.addtrait(new Go());
+                mario.addtrait(new Jump());
 
-            return mario;
-        })
+                mario.draw = function drawMario(context) {
+                    sprite.draw("mario", context, 0, 0);
+                };
+
+                return mario;
+            });
+
 }

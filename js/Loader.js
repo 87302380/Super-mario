@@ -45,13 +45,22 @@ function loadSpritSheet(name) {
         loadImage(sheetSpec.imageURL),
     ])).then(([sheetSpec, image]) =>{
         var sprites = new SpriteSheet(image, sheetSpec.tileW, sheetSpec.tileH);
-        sheetSpec.tiles.forEach(tileSpec => {
-            sprites.defineTile(
-                tileSpec.name,
-                tileSpec.index[0],
-                tileSpec.index[1]
-            );
-        });
+        if (sheetSpec.tiles){
+            sheetSpec.tiles.forEach(tileSpec => {
+                sprites.defineTile(
+                    tileSpec.name,
+                    tileSpec.index[0],
+                    tileSpec.index[1]
+                );
+            });
+        }
+        
+        if (sheetSpec.frames){
+            sheetSpec.frames.forEach(framSpec => {
+                sprites.define(framSpec.name, ...framSpec.rect);
+            });
+        }
+        
         return sprites;
     });
 }
