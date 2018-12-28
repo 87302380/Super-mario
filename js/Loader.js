@@ -20,6 +20,7 @@ function createTiles(level, backgrounds) {
             for (let y = yStart;y<yEnd;y++){
                 level.tiles.set(x, y, {
                     name : background.tile,
+                    description : background.description,
                     type : background.type,
                 });
             }
@@ -60,7 +61,13 @@ function loadSpritSheet(name) {
                 sprites.define(framSpec.name, ...framSpec.rect);
             });
         }
-        
+
+        if (sheetSpec.animation){
+            sheetSpec.animation.forEach(animSpec => {
+                var animation = creatAnim(animSpec.frames, animSpec.frameLen);
+                sprites.defineAnim(animSpec.name, animation);
+            });
+        }
         return sprites;
     });
 }

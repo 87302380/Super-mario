@@ -2,6 +2,7 @@ class Level{
     constructor(){
 
         this.gravity = 40;                   //重力 影响跳跃的高度
+        this.totalTime = 0;
 
         this.comp = new Compositor();
         this.entites = new Set();
@@ -22,5 +23,7 @@ class Level{
 
             entity.vel.y += this.gravity * deltaTime;
         });
+
+        this.totalTime += deltaTime;
     }
 }

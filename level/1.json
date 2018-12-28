@@ -590,6 +590,7 @@
       {
         "tile": "25&1",
         "type": "ground",
+        "description": "chance",
         "ranges": [
           [
             63,13

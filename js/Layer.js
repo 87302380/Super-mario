@@ -11,9 +11,9 @@ function createBackgroundLayer(level, sprites){
 
     let startIndex, endIndex;
     function redraw(drawFrom, drawTo){
-        if (drawFrom === startIndex && drawTo === endIndex){
-            return;
-        }
+        // if (drawFrom === startIndex && drawTo === endIndex){
+        //     return;
+        // }
 
         startIndex = drawFrom;
         endIndex = drawTo;
@@ -22,7 +22,11 @@ function createBackgroundLayer(level, sprites){
             var col = tiles.grid[x];
             if (col){
                 col.forEach((tile, y) =>{
-                    sprites.drawTile(tile.name, context, x - startIndex, y);
+                    if (sprites.animations.has(tile.description)) {
+                        sprites.drawAnim(tile.description, context, x - startIndex, y, level.totalTime);
+                    }else {
+                        sprites.drawTile(tile.name, context, x - startIndex, y);
+                    }
                 });
             }
         }
@@ -65,7 +69,6 @@ function createCollisionLayer(level) {
     var resolvedTiles = [];
 
     var tileResolver = level.tileCollider.tiles;
- //   var tileSize = tileResolver.tileSize;
 
     var getByIndexOriginal = tileResolver.getByIndex;
     tileResolver.getByIndex = function getByIndexFake(x, y) {
@@ -73,18 +76,6 @@ function createCollisionLayer(level) {
         return getByIndexOriginal.call(tileResolver, x, y);
     }
 
-    // return function drawCollision(context) {
-    //
-    //   //  context.strokeStyle = 'blue';
-    //     resolvedTiles.forEach(({x, y}) =>{
-    //         console.log("123", x, y);
-    //         // context.beginPath();
-    //         // context.rect(x * tileSize, y * tileSize, tileSize, tileSize);
-    //         // context.stroke();
-    //     });
-    //
-    //     resolvedTiles.length = 0;
-    // }
 
 
 

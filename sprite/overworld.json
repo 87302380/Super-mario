@@ -6,23 +6,38 @@
     "tiles": [
         {
             "name": "1&1",
+            "description": "normal brick 1",
             "index": [0, 0]
         },
         {
             "name": "4&24",
+            "description": "sky",
             "index": [3, 23]
         },
         {
             "name": "1&2",
+            "description": "normal brick 2",
             "index": [0, 1]
         },
         {
             "name": "2&1",
+            "description": "normal brick 3",
             "index": [1, 0]
         },
         {
             "name": "25&1",
+            "description": "chance 1",
             "index": [24, 0]
+        },
+        {
+            "name": "26&1",
+            "description": "chance 2",
+            "index": [25, 0]
+        },
+        {
+            "name": "27&1",
+            "description": "chance 3",
+            "index": [26, 0]
         },
         {
             "name": "9&9",
@@ -191,6 +206,20 @@
         {
             "name": "21&1",
             "index": [20, 0]
+        }
+    ],
+
+    "animation":[
+        {
+            "name": "chance",
+            "frameLen": 0.15,
+            "frames":[
+                "25&1",
+                "25&1",
+                "26&1",
+                "27&1",
+                "26&1"
+            ]
         }
     ]
 }
