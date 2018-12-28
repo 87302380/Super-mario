@@ -7,12 +7,20 @@ class SpriteSheet{
     }
 
     define(name, x, y, width, height) {
-        var buffer = document.createElement("canvas");
-        buffer.width = width;
-        buffer.height = height;
-        buffer
-            .getContext("2d")
-            .drawImage(
+
+        var buffers = [false, true].map(flip =>{
+            var buffer = document.createElement("canvas");
+            buffer.width = width;
+            buffer.height = height;
+
+            var context = buffer.getContext("2d");
+            
+            if (flip){
+                context.scale(-1, 1);
+                context.translate(-width, 0);
+            }
+
+            context.drawImage(
                 this.image,
                 x,
                 y,
@@ -22,15 +30,21 @@ class SpriteSheet{
                 0,
                 width,
                 height);
-        this.tile.set(name, buffer)
+
+            return buffer;
+        });
+
+
+
+        this.tile.set(name, buffers);
     }
 
     defineTile(name, x, y){
         this.define(name, x * this.width, y * this.height, this.width, this.height);
     }
 
-    draw(name, context, x, y){
-        var buffer = this.tile.get(name);
+    draw(name, context, x, y, flip = false){
+        var buffer = this.tile.get(name)[flip ? 1 : 0];
         context.drawImage(buffer, x , y);
     }
 
