@@ -35,7 +35,7 @@ Promise.all([
             }
 
             level.comp.draw(context, camera);
-        };
+        }
 
         timer.start();
 });

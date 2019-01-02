@@ -1,7 +1,7 @@
 class Level{
     constructor(){
 
-        this.gravity = 40;                   //重力 影响跳跃的高度
+        this.gravity = 70;                   //重力 影响跳跃的高度
         this.totalTime = 0;
 
         this.comp = new Compositor();

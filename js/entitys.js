@@ -10,11 +10,17 @@ function creatMario() {
             mario.addtrait(new Go());
             mario.addtrait(new Jump());
 
-            var runAnim  = creatAnim(["run-1", "run-2", "run-3"], 1);
+            var runAnim  = creatAnim(["run-1", "run-2", "run-3"], 2);
 
             function routeFrame(mario){
-                if (mario.go.dir !== 0){
-
+                if (mario.jump.falling){
+                    return 'jump';
+                }
+                if (mario.go.distance > 0){
+                    if ((mario.vel.x > 0 && mario.go.dir < 0) || (mario.vel.x < 0 && mario.go.dir > 0)){
+                        return "break";
+                    }
+                    
                     return runAnim(mario.go.distance);
                 }
 

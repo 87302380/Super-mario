@@ -1,7 +1,16 @@
 
+const Sides = {
+    TOP: Symbol('top'),
+    BOTTOM: Symbol('bottom'),
+}
+
 class Trait {
     constructor(name){
         this.NAME = name;
+    }
+
+    obstruct(){
+
     }
 
     update(){
@@ -22,8 +31,13 @@ class Entity{
         this[trait.NAME] =trait;
     }
 
-    update(deltaTime){
+    obstruct(side){
+        this.traits.forEach(trait =>{
+            trait.obstruct(this, side);
+        });
+    }
 
+    update(deltaTime){
         this.traits.forEach(trait =>{
             trait.update(this, deltaTime);
         });
