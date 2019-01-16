@@ -6,9 +6,12 @@ class Level{
 
         this.comp = new Compositor();
         this.entites = new Set();
-        this.tiles = new Matrix();
 
-        this.tileCollider = new TileCollider(this.tiles);
+        this.tileCollider = null;
+    }
+
+    setCollisionGrid(matrix){
+        this.tileCollider = new TileCollider(matrix);
     }
 
     update(deltaTime){

@@ -1,22 +1,17 @@
 
-function createBackgroundLayer(level, sprites){
-    var tiles = level.tiles;
-    var resolver =level.tileCollider.tiles;
+function createBackgroundLayer(level, tiles, sprites){
 
+    var resolver = new TileResolver(tiles);
+    console.log(resolver);
     var Buffer = document.createElement("canvas");
     Buffer.width = 512 + 16; //只提前加载一格
     Buffer.height = 480;
 
     var context = Buffer.getContext("2d");
 
-    let startIndex, endIndex;
-    function redraw(drawFrom, drawTo){
-        // if (drawFrom === startIndex && drawTo === endIndex){
-        //     return;
-        // }
+    function redraw(startIndex, endIndex){
 
-        startIndex = drawFrom;
-        endIndex = drawTo;
+        context.clearRect(0, 0, Buffer.width, Buffer.height);
 
         for (let x = startIndex; x<= endIndex; x++){
             var col = tiles.grid[x];
