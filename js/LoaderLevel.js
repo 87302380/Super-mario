@@ -29,7 +29,6 @@ function loadLevel(name) {
 
 function createCollisionGrid(tiles, patterns) {
     var grid = new Matrix();
-    console.log(tiles, patterns);
 
     for (const {tile, x, y} of expandTiles(tiles, patterns)){
         grid.set(x, y, {type : tile.type,});

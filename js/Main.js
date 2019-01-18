@@ -4,20 +4,27 @@ var context = canvas.getContext("2d");
 
 
 Promise.all([
-    creatMario(),
+    loadEntities(),
     loadLevel("1"),
-]).then(([mario,level])=> {
+]).then(([entity,level])=> {
 
         var camera = new Camera();
         window.camera = camera;
 
+
+        var mario = entity.mario();
        // mario.pos.set(16, 0);            //马里奥生成的初始位置
         mario.vel.set(2 , -10);             //马里奥跳跃的距离高度设置
 
-        createCollisionLayer(level);
+        var goomba = entity.goomba();
+        goomba.pos.x = 180;
+
+        var koopa = entity.koopa();
+        koopa.pos.x = 200;
 
         level.entites.add(mario);
-
+        level.entites.add(goomba);
+        level.entites.add(koopa);
 
         setupMouseControl(canvas, mario, camera);
         var input = setupKeyboard(mario);

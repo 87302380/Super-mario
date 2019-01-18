@@ -21,7 +21,7 @@ class Level{
             entity.pos.x += entity.vel.x * deltaTime*10 ;
             this.tileCollider.checkX(entity);
 
-            entity.pos.y += entity.vel.y * deltaTime*10 ;
+            entity.bounds.top += entity.vel.y * deltaTime*10 ;
             this.tileCollider.checkY(entity);
 
             entity.vel.y += this.gravity * deltaTime;

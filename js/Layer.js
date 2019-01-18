@@ -2,7 +2,6 @@
 function createBackgroundLayer(level, tiles, sprites){
 
     var resolver = new TileResolver(tiles);
-    console.log(resolver);
     var Buffer = document.createElement("canvas");
     Buffer.width = 512 + 16; //只提前加载一格
     Buffer.height = 480;
@@ -70,8 +69,5 @@ function createCollisionLayer(level) {
         resolvedTiles.push({x, y});
         return getByIndexOriginal.call(tileResolver, x, y);
     }
-
-
-
 
 }
