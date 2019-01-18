@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Super-mario.iml" filepath="$PROJECT_DIR$/.idea/Super-mario.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Super-mario.iml" filepath="$PROJECT_DIR$/Super-mario.iml" />
     </modules>
   </component>
 </project>
