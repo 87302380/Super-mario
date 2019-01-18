@@ -3,7 +3,7 @@ function createBackgroundLayer(level, tiles, sprites){
 
     var resolver = new TileResolver(tiles);
     var Buffer = document.createElement("canvas");
-    Buffer.width = 512 + 16; //只提前加载一格
+    Buffer.width = 640 + 16; //只提前加载一格
     Buffer.height = 480;
 
     var context = Buffer.getContext("2d");
