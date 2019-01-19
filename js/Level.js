@@ -7,6 +7,7 @@ class Level{
         this.comp = new Compositor();
         this.entites = new Set();
 
+        this.entityCollider = new EntityCollider(this.entites);
         this.tileCollider = null;
     }
 
@@ -16,16 +17,26 @@ class Level{
 
     update(deltaTime){
         this.entites.forEach(entity =>{
-            entity.update(deltaTime);
+            entity.update(deltaTime, this);
 
             entity.pos.x += entity.vel.x * deltaTime*10 ;
-            this.tileCollider.checkX(entity);
+            if (entity.canCollide){
+                this.tileCollider.checkX(entity);
+            }
 
             entity.bounds.top += entity.vel.y * deltaTime*10 ;
-            this.tileCollider.checkY(entity);
+            if (entity.canCollide){
+                this.tileCollider.checkY(entity);
+            }
 
             entity.vel.y += this.gravity * deltaTime;
         });
+
+        this.entites.forEach(entity =>{
+            if (entity.canCollide){
+                this.entityCollider.check(entity);
+            }
+        })
 
         this.totalTime += deltaTime;
     }

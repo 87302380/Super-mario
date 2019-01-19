@@ -98,7 +98,7 @@ class Go extends Trait{
 class Walk extends Trait{
     constructor() {
         super("walk");
-
+        this.enabled = true;
         this.speed = -2;
     }
 
@@ -109,6 +109,73 @@ class Walk extends Trait{
     }
 
     update(entity, deltaTime){
-        entity.vel.x = this.speed;
+        if (this.enabled){
+            entity.vel.x = this.speed;
+        }
+    }
+}
+
+class Stomper extends Trait{
+    constructor() {
+        super("stomper");
+        this.bounceSpeed = 30;
+    }
+
+    bounce(us, them) {
+        us.bounds.bottom = them.bounds.top;
+        us.vel.y = -this.bounceSpeed;
+    }
+
+    collides(us, them) {
+        if (them.killable && us.vel.y > them.vel.y) {
+            this.bounce(us, them);
+        }
+    }
+}
+
+class Killable extends Trait{
+    constructor() {
+        super("killable");
+        this.dead = false;
+        this.deltaTime = 0;
+        this.removeAfter = 1;
+    }
+
+    kill(){
+        this.dead = true;
+    }
+
+    revive(){
+        this.dead = false;
+        this.deltaTime = 0;
+    }
+
+    update(entity, deltaTime, level){
+        if (this.dead){
+            this.deltaTime += deltaTime;
+            if (this.deltaTime > this.removeAfter){
+                level.entites.delete(entity);
+            }
+        }
+    }
+}
+
+class PlayerController extends Trait{
+    constructor() {
+        super('playerController');
+        this.checkpoint = new Vec2(0, 0);
+        this.player = null;
+    }
+
+    setPlayer(entity){
+        this.player = entity;
+    }
+
+    update(entity, deltaTime, level){
+        if (!level.entites.has(this.player)){
+            this.player.killable.revive();
+            this.player.pos.set(this.checkpoint.x, this.checkpoint.y);
+            level.entites.add(this.player);
+        }
     }
 }

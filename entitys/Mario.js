@@ -33,6 +33,10 @@ function creatMarioFactor(sprite) {
 
         mario.addtrait(new Go());
         mario.addtrait(new Jump());
+        mario.addtrait(new Killable());
+        mario.addtrait(new Stomper());
+
+        mario.killable.removeAfter = 0;
 
         mario.draw = drawMario;
 

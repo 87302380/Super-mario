@@ -16,8 +16,8 @@ function createBackgroundLayer(level, tiles, sprites){
             var col = tiles.grid[x];
             if (col){
                 col.forEach((tile, y) =>{
-                    if (sprites.animations.has(tile.description)) {
-                        sprites.drawAnim(tile.description, context, x - startIndex, y, level.totalTime);
+                    if (sprites.animations.has(tile.name)) {
+                        sprites.drawAnim(tile.name, context, x - startIndex, y, level.totalTime);
                     }else {
                         sprites.drawTile(tile.name, context, x - startIndex, y);
                     }
