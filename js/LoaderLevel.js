@@ -1,30 +1,53 @@
-function loadLevel(name) {
-    var url = "./level/"+name+".json";
-    return loadJSON(url)
-        .then(levelSpec => Promise.all([
-            levelSpec,
-            loadSpritSheet(levelSpec.spriteSheet),
-        ]))
-        .then(([levelSpec, backgroundsprites]) => {
-            var level = new Level();
 
-            const mergedTiles = levelSpec.layers.reduce((mergedTiles, layerSpec) =>{
-                return mergedTiles.concat(layerSpec.tiles);
-            }, []);
-            var collisionGrid = createCollisionGrid(mergedTiles, levelSpec.patterns);
-            level.setCollisionGrid(collisionGrid);
+function setupCollision(levelSpec, level) {
+    const mergedTiles = levelSpec.layers.reduce((mergedTiles, layerSpec) =>{
+        return mergedTiles.concat(layerSpec.tiles);
+    }, []);
+    var collisionGrid = createCollisionGrid(mergedTiles, levelSpec.patterns);
+    level.setCollisionGrid(collisionGrid);
+}
 
-            levelSpec.layers.forEach(layer => {
-                var backgroundGrid = createBackgroundGrid(layer.tiles, levelSpec.patterns);
-                var backgroundLayer = createBackgroundLayer(level, backgroundGrid, backgroundsprites);
-                level.comp.layers.push(backgroundLayer);
+function setupBackgrounds(levelSpec, level, backgroundSprites) {
+    levelSpec.layers.forEach(layer => {
+        var backgroundGrid = createBackgroundGrid(layer.tiles, levelSpec.patterns);
+        var backgroundLayer = createBackgroundLayer(level, backgroundGrid, backgroundSprites);
+        level.comp.layers.push(backgroundLayer);
+    });
+}
+
+function setupEntities(levelSpec, level, entityFactory) {
+
+    levelSpec.entities.forEach(({name, pos: [x, y]}) => {
+        var createEntity = entityFactory[name];
+        var entity = createEntity();
+        entity.pos.set(x, y);
+        level.entites.add(entity);
+    });
+
+    var spriteLayer = createSpritesLayer(level.entites);
+    level.comp.layers.push(spriteLayer);
+}
+
+function createLevelLoader(entityFactory) {
+
+    return function loadLevel(name){
+        var url = "./level/"+name+".json";
+        return loadJSON(url)
+            .then(levelSpec => Promise.all([
+                levelSpec,
+                loadSpritSheet(levelSpec.spriteSheet),
+            ]))
+            .then(([levelSpec, backgroundSprites]) => {
+                var level = new Level();
+
+                setupCollision(levelSpec, level);
+                setupBackgrounds(levelSpec, level, backgroundSprites);
+                setupEntities(levelSpec, level, entityFactory);
+
+                return level;
             });
+    }
 
-            var spritesLayer = createSpritesLayer(level.entites);
-            level.comp.layers.push(spritesLayer);
-
-            return level;
-        })
 }
 
 function createCollisionGrid(tiles, patterns) {
@@ -70,16 +93,12 @@ function expandRange(range) {
 
 function* expandRanges(ranges) {
     for (var range of ranges){
-        for (var item of expandRange(range)){
-            yield item;
-        }
+        yield* expandRange(range);
     }
 }
 
-function expandTiles(tiles, patterns) {
-    var expandTiles = [];
-
-    function walkTiles(tiles, offsetX, offsetY) {
+function* expandTiles(tiles, patterns) {
+    function* walkTiles(tiles, offsetX, offsetY) {
         for (var tile of tiles) {
             for (const {x, y} of expandRanges(tile.ranges)){
                 var derivedX = x + offsetX;
@@ -87,19 +106,17 @@ function expandTiles(tiles, patterns) {
 
                 if (tile.pattern) {
                     var tiles = patterns[tile.pattern].tiles;
-                    walkTiles(tiles, derivedX, derivedY);
+                    yield* walkTiles(tiles, derivedX, derivedY);
                 }else {
-                    expandTiles.push({
+                    yield {
                         tile,
                         x: derivedX,
                         y: derivedY,
-                    })
+                    };
                 }
             }
         }
     }
 
-    walkTiles(tiles, 0, 0);
-
-    return expandTiles;
+    yield* walkTiles(tiles, 0, 0);
 }
