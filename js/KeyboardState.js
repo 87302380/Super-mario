@@ -2,21 +2,26 @@ var PRESSED = 1;
 var RELEASED = 0;
 
 function setupKeyboard(entity) {
-
+    var run = true;
     var input = new keyboard();
-    input.addMapping(32, keyState => {    //space is 32
+    input.addMapping(32, keyState => {
         if (keyState){
             entity.jump.start();
         }else{
             entity.jump.cancel();
         }
     });
-    input.addMapping(39, keyState => {   //right is 39
+    input.addMapping(39, keyState => {
         entity.go.dir += keyState ? 1 : -1;
     });
-    input.addMapping(37, keyState => {  //left is 37
+    input.addMapping(37, keyState => {
         entity.go.dir += -keyState ? -1 : 1;
     });
+    input.addMapping(80, keyState => {
+        alert("Spielpause\n" +
+            "Drücken Sie die Eingabetaste, um fortzufahren");
+    });
+
     return input;
 }
 

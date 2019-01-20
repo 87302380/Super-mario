@@ -26,10 +26,11 @@ async function main(canvas) {
 
     var playerEnv = createPlayerEnv(mario);
     level.entites.add(playerEnv);
-    console.log(playerEnv);
+
     level.comp.layers.push(createDashboardLayer(font, playerEnv));
 
     setupMouseControl(canvas, mario, camera);
+
     var input = setupKeyboard(mario);
     input.lisenTo(window);
 
@@ -41,7 +42,6 @@ async function main(canvas) {
         camera.pos.x = Math.max(0, mario.pos.x - 100);
 
         level.comp.draw(context, camera);
-
 
     }
 

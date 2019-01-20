@@ -153,9 +153,16 @@ class Killable extends Trait{
         this.queue(() => this.dead = true);
     }
 
-    revive(){
+    revive(coins){
+        if (coins === 0){
+            return;
+        }
+
         this.dead = false;
         this.deltaTime = 0;
+        coins = coins - 1;
+
+        return coins;
     }
 
     update(entity, deltaTime, level){
@@ -197,15 +204,20 @@ class Solid extends Trait{
     }
 }
 
-
-
 class PlayerController extends Trait{
     constructor() {
         super('playerController');
         this.checkpoint = new Vec2(0, 0);
         this.player = null;
         this.score = 0;
+        this.coins = 13;
+        this.input = null;
         this.time = 300;
+    }
+
+    setPlayerInput(input){
+        this.input = input;
+        console.log(this.input);
     }
 
     setPlayer(entity){
@@ -218,11 +230,24 @@ class PlayerController extends Trait{
 
     update(entity, deltaTime, level){
         if (!level.entites.has(this.player)){
-            this.player.killable.revive();
-            this.player.pos.set(this.checkpoint.x, this.checkpoint.y);
-            level.entites.add(this.player);
+            this.coins = this.player.killable.revive(this.coins);
+            if (this.coins >= 0){
+                this.player.pos.set(this.checkpoint.x, this.checkpoint.y);
+                level.entites.add(this.player);
+            }
+
          }else {
             this.time -= deltaTime;
+         }
+
+        if (this.player.pos.y > 500){
+            this.coins = this.player.killable.revive(this.coins);
+            if (this.coins >= 0){
+                this.player.pos.set(this.checkpoint.x, this.checkpoint.y);
+                level.entites.add(this.player);
+            }
         }
+
     }
+
 }

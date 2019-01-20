@@ -52,6 +52,7 @@ function creatGoombaFactor(sprite) {
         goomba.addtrait(new Walk());
         goomba.addtrait(new BehaviorGoomba());
         goomba.addtrait(new Killable());
+
         goomba.draw = drawGoomba;
 
         return goomba;

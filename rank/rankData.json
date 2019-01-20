@@ -1,0 +1,21 @@
+{
+
+    "rank":[
+        {
+            "name":"leichen",
+            "score":9999999
+        },
+        {
+            "name":"CMA",
+            "score":1234
+        },
+        {
+            "name":"ZLB",
+            "score":342342
+        },
+        {
+            "name":"xianyu",
+            "score":123
+        }
+    ]
+}

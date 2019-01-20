@@ -126,8 +126,8 @@ function creatKoopaFactor(sprite) {
         koopa.offset.y = 8;
         koopa.addtrait(new Solid());
         koopa.addtrait(new Walk());
-        koopa.addtrait(new Killable());
         koopa.addtrait(new BehaviorKoop());
+        koopa.addtrait(new Killable());
 
         koopa.draw = drawKoopa;
 
