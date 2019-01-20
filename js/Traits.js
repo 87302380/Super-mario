@@ -8,7 +8,7 @@ class Jump extends Trait{
         this.requestTime = 0;
         this.gracePeriod = 0.1;
         this.speedBoost = 0.3;
-        this.velocity = 20;
+        this.velocity = 200;
     }
 
     get falling(){
@@ -58,8 +58,8 @@ class Go extends Trait{
         super("go");
 
         this.dir = 0;
-        this.acceleration = 20;
-        this.deceleration = 30;
+        this.acceleration = 400;
+        this.deceleration = 300;
         this.dragFactor = 1/5000;
 
         this.distance = 0;
@@ -99,7 +99,7 @@ class Walk extends Trait{
     constructor() {
         super("walk");
         this.enabled = true;
-        this.speed = -2;
+        this.speed = -30;
     }
 
     obstruct(entity, side){
@@ -118,7 +118,7 @@ class Walk extends Trait{
 class Stomper extends Trait{
     constructor() {
         super("stomper");
-        this.bounceSpeed = 30;
+        this.bounceSpeed = 200;
     }
 
     bounce(us, them) {
@@ -127,7 +127,11 @@ class Stomper extends Trait{
     }
 
     collides(us, them) {
-        if (them.killable && us.vel.y > them.vel.y) {
+        if (!them.killable || them.killable.dead) {
+            return;
+        }
+
+        if (us.vel.y > them.vel.y) {
             this.bounce(us, them);
         }
     }
@@ -142,7 +146,7 @@ class Killable extends Trait{
     }
 
     kill(){
-        this.dead = true;
+        this.queue(() => this.dead = true);
     }
 
     revive(){
@@ -154,11 +158,42 @@ class Killable extends Trait{
         if (this.dead){
             this.deltaTime += deltaTime;
             if (this.deltaTime > this.removeAfter){
-                level.entites.delete(entity);
+                this.queue(() => {
+                    level.entites.delete(entity);
+                });
             }
         }
     }
 }
+
+class Solid extends Trait{
+    constructor() {
+        super("solid");
+        this.obstructs = true;
+
+    }
+    obstruct(entity, side, match){
+        if (!this.obstructs) {
+            return;
+        }
+
+        if (side === Sides.BOTTOM) {
+            entity.bounds.bottom = match.y1;
+            entity.vel.y = 0;
+        } else if (side === Sides.TOP) {
+            entity.bounds.top = match.y2;
+            entity.vel.y = 0;
+        } else if (side === Sides.LEFT) {
+            entity.bounds.left = match.x2;
+            entity.vel.x = 0;
+        } else if (side === Sides.RIGHT) {
+            entity.bounds.right = match.x1;
+            entity.vel.x = 0;
+        }
+    }
+}
+
+
 
 class PlayerController extends Trait{
     constructor() {

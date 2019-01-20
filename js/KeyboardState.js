@@ -34,7 +34,6 @@ class keyboard {
     handleEvent(event){
         var {keyCode} = event;
 
-
         if (!this.keyMap.has(keyCode)){
             return;
         }

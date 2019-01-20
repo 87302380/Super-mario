@@ -28,7 +28,6 @@ async function main(canvas) {
     var input = setupKeyboard(mario);
     input.lisenTo(window);
 
-
     var timer = new Timer(1/60);
 
     timer.update = function update(deltaTime){

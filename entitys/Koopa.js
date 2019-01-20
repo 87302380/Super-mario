@@ -15,7 +15,7 @@ class BehaviorKoop extends Trait {
         this.hideDuration = 5;
 
         this.walkSpeed = null;
-        this.panicSpeed = 30;
+        this.panicSpeed = 150;
 
         this.state = STATE_WALKING;
 
@@ -54,8 +54,8 @@ class BehaviorKoop extends Trait {
             this.hide(us);
         } else if (this.state === STATE_HIDING){
             us.killable.kill();
-            us.vel.set(20,-20);
-            us.canCollide = false;
+            us.vel.set(80,-200);
+            us.solid.obstructs = false;
         } else if (this.state === STATE_PANIC) {
             this.hide(us);
         }
@@ -65,7 +65,7 @@ class BehaviorKoop extends Trait {
         us.vel.x = 0;
         us.walk.enabled = false;
         if (this.walkSpeed === null) {
-            this.walkSpeed = us.walk.speed;
+            this.walkSpeed = us.walk.speed ;
         }
         this.hideTime = 0;
         this.state = STATE_HIDING
@@ -124,7 +124,7 @@ function creatKoopaFactor(sprite) {
 
         koopa.size.set(16, 16);
         koopa.offset.y = 8;
-
+        koopa.addtrait(new Solid());
         koopa.addtrait(new Walk());
         koopa.addtrait(new Killable());
         koopa.addtrait(new BehaviorKoop());

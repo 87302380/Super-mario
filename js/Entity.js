@@ -9,6 +9,16 @@ const Sides = {
 class Trait {
     constructor(name){
         this.NAME = name;
+        this.tasks = [];
+    }
+
+    finalize() {
+        this.tasks.forEach(task => task());
+        this.tasks.length = 0;
+    }
+
+    queue(task) {
+        this.tasks.push(task);
     }
 
     collides(us, them) {
@@ -37,6 +47,7 @@ class Entity{
 
         this.traits = [];
     }
+
     addtrait(trait){
         this.traits.push(trait);
         this[trait.NAME] =trait;
@@ -48,9 +59,15 @@ class Entity{
         });
     }
 
-    obstruct(side){
+    finalize() {
+        this.traits.forEach(trait => {
+            trait.finalize();
+        });
+    }
+
+    obstruct(side, match){
         this.traits.forEach(trait =>{
-            trait.obstruct(this, side);
+            trait.obstruct(this, side, match);
         });
     }
 

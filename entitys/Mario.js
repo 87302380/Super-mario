@@ -31,6 +31,7 @@ function creatMarioFactor(sprite) {
 
         mario.size.set(16, 16);
 
+        mario.addtrait(new Solid());
         mario.addtrait(new Go());
         mario.addtrait(new Jump());
         mario.addtrait(new Killable());

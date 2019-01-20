@@ -48,6 +48,7 @@ function creatGoombaFactor(sprite) {
 
         goomba.size.set(16, 16);
 
+        goomba.addtrait(new Solid());
         goomba.addtrait(new Walk());
         goomba.addtrait(new BehaviorGoomba());
         goomba.addtrait(new Killable());
