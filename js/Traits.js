@@ -119,6 +119,9 @@ class Stomper extends Trait{
     constructor() {
         super("stomper");
         this.bounceSpeed = 200;
+
+        this.onStomp = function () {
+        }
     }
 
     bounce(us, them) {
@@ -133,6 +136,7 @@ class Stomper extends Trait{
 
         if (us.vel.y > them.vel.y) {
             this.bounce(us, them);
+            this.onStomp(us, them);
         }
     }
 }
@@ -200,10 +204,16 @@ class PlayerController extends Trait{
         super('playerController');
         this.checkpoint = new Vec2(0, 0);
         this.player = null;
+        this.score = 0;
+        this.time = 300;
     }
 
     setPlayer(entity){
         this.player = entity;
+
+        this.player.stomper.onStomp = () => {
+            this.score += 100;
+        }
     }
 
     update(entity, deltaTime, level){
@@ -211,6 +221,8 @@ class PlayerController extends Trait{
             this.player.killable.revive();
             this.player.pos.set(this.checkpoint.x, this.checkpoint.y);
             level.entites.add(this.player);
+         }else {
+            this.time -= deltaTime;
         }
     }
 }

@@ -30,7 +30,7 @@
     "animation":[
         {
             "name": "run",
-            "frameLen": 2,
+            "frameLen": 10,
             "frames":[
                 "run-1",
                 "run-2",

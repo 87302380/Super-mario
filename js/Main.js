@@ -10,9 +10,12 @@ function createPlayerEnv(playerEntity){
 
 async function main(canvas) {
     var context = canvas.getContext('2d');
-    var entityFactory = await loadEntities();
+    var [entityFactory, font] = await Promise.all([
+        loadEntities(),
+        loadFont(),
+    ]);
 
-    var  loadLevel = await createLevelLoader(entityFactory);
+    var loadLevel = await createLevelLoader(entityFactory);
 
     var level = await loadLevel('1');
 
@@ -23,6 +26,8 @@ async function main(canvas) {
 
     var playerEnv = createPlayerEnv(mario);
     level.entites.add(playerEnv);
+    console.log(playerEnv);
+    level.comp.layers.push(createDashboardLayer(font, playerEnv));
 
     setupMouseControl(canvas, mario, camera);
     var input = setupKeyboard(mario);
@@ -36,6 +41,8 @@ async function main(canvas) {
         camera.pos.x = Math.max(0, mario.pos.x - 100);
 
         level.comp.draw(context, camera);
+
+
     }
 
     timer.start();

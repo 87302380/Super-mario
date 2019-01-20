@@ -1,4 +1,3 @@
-
 function createBackgroundLayer(level, tiles, sprites){
 
     var resolver = new TileResolver(tiles);
@@ -34,40 +33,4 @@ function createBackgroundLayer(level, tiles, sprites){
 
         context.drawImage(Buffer, -camera.pos.x % 16 , -camera.pos.y);
     };
-}
-
-function createSpritesLayer(entities, width = 64, height = 64){
-
-    var spritBuffer = document.createElement("canvas");
-    spritBuffer.width = width;
-    spritBuffer.height = height;
-
-    var spritBufferContext = spritBuffer.getContext("2d");
-
-    return function drawSpritesLayer(context) {
-        entities.forEach(entity =>{
-            spritBufferContext.clearRect(0, 0, width, height);
-
-            entity.draw(spritBufferContext);
-
-            context.drawImage(
-                spritBuffer,
-                entity.pos.x - camera.pos.x,
-                entity.pos.y - camera.pos.y);
-        });
-
-    };
-}
-
-function createCollisionLayer(level) {
-    var resolvedTiles = [];
-
-    var tileResolver = level.tileCollider.tiles;
-
-    var getByIndexOriginal = tileResolver.getByIndex;
-    tileResolver.getByIndex = function getByIndexFake(x, y) {
-        resolvedTiles.push({x, y});
-        return getByIndexOriginal.call(tileResolver, x, y);
-    }
-
 }
