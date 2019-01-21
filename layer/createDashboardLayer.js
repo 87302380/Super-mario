@@ -5,7 +5,7 @@ function createDashboardLayer(font, playerEnv) {
 
     return function drawDashboard(context) {
 
-        var {score, time, coins} = playerEnv.playerController;
+        var {score, time, coins, level} = playerEnv.playerController;
 
         font.print('MARIO', context, 16, LINE1);
         font.print(score.toString().padStart(6, '0'), context, 16, LINE2);
@@ -18,7 +18,7 @@ function createDashboardLayer(font, playerEnv) {
 
 
         font.print('WORLD', context, 296, LINE1);
-        font.print('1-1', context, 304, LINE2);
+        font.print('1-' + level, context, 304, LINE2);
 
         font.print('TIME', context, 588, LINE1);
         font.print(time.toFixed().toString().padStart(3, '0'), context, 596, LINE2);

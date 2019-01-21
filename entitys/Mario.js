@@ -36,6 +36,7 @@ function creatMarioFactor(sprite) {
         mario.addtrait(new Jump());
         mario.addtrait(new Killable());
         mario.addtrait(new Stomper());
+        mario.addtrait(new BehaviorChance());
 
         mario.killable.removeAfter = 0;
 

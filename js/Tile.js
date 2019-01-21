@@ -36,10 +36,6 @@ class TileResolver {
         }
     }
 
-    // serchByPosition(posX, posY){
-    //     return this.getByIndex(this.toIndex(posX), this.toIndex(posY));
-    // }
-
     serchByRange(x1, x2, y1, y2){
         var matches = [];
         this.toIndexRange(x1, x2).forEach(indexX => {
@@ -72,9 +68,11 @@ class TileCollider {
             x, x,
             entity.bounds.top, entity.bounds.bottom);
         matches.forEach(match => {
-            if (match.tile.type !== 'ground'){
+
+            if (match.tile.type !== 'ground' && match.tile.type !== 'chance'){
                 return;
             }
+
             if (entity.vel.x > 0){
                 if (entity.bounds.right > match.x1){
                     entity.obstruct(Sides.RIGHT, match);
@@ -101,16 +99,24 @@ class TileCollider {
             entity.bounds.left, entity.bounds.right,
             y, y);
         matches.forEach(match => {
-            if (match.tile.type !== 'ground'){
+
+            if (match.tile.type !== 'ground' && match.tile.type !== 'chance' ){
                 return;
             }
+
             if (entity.vel.y > 0){
                 if (entity.bounds.bottom > match.y1){
+
                     entity.obstruct(Sides.BOTTOM, match);
                 }
             }else if(entity.vel.y<0){
                 if (entity.bounds.top < match.y2){
-                    entity.obstruct(Sides.TOP, match);
+                    if (match.tile.type === 'chance'){
+                        entity.obstruct(Sides.CHANCE, match);
+                    }else {
+                        entity.obstruct(Sides.TOP, match);
+
+                    }
                 }
             }
         });

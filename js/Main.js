@@ -14,10 +14,7 @@ async function main(canvas) {
         loadEntities(),
         loadFont(),
     ]);
-
     var loadLevel = await createLevelLoader(entityFactory);
-
-    var level = await loadLevel('1');
 
     var camera = new Camera();
     window.camera = camera;
@@ -25,6 +22,9 @@ async function main(canvas) {
     var mario = entityFactory.mario();
 
     var playerEnv = createPlayerEnv(mario);
+    var l = playerEnv.playerController.level;
+
+    var level = await loadLevel(l);
     level.entites.add(playerEnv);
 
     level.comp.layers.push(createDashboardLayer(font, playerEnv));
@@ -44,6 +44,7 @@ async function main(canvas) {
         level.comp.draw(context, camera);
 
     }
+
 
     timer.start();
 }

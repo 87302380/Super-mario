@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Super Mario</title>
+    <script type="text/javascript" src="js/Math.js"></script>
+    <script type="text/javascript" src="js/BoundingBox.js"></script>
+    <script type="text/javascript" src="js/Camera.js"></script>
+    <script type="text/javascript" src="js/Loader.js"></script>
+    <script type="text/javascript" src="load/LoaderLevel.js"></script>
+    <script type="text/javascript" src="load/font.js"></script>
+    <script type="text/javascript" src="layer/createDashboardLayer.js"></script>
+    <script type="text/javascript" src="layer/sprite.js"></script>
+    <script type="text/javascript" src="layer/background.js"></script>
+    <script type="text/javascript" src="js/LoadEntities.js"></script>
+    <script type="text/javascript" src="js/SpriteSheet.js"></script>
+    <script type="text/javascript" src="js/Compositor.js"></script>
+    <script type="text/javascript" src="js/Tile.js"></script>
+    <script type="text/javascript" src="js/EntityCollider.js"></script>
+    <script type="text/javascript" src="js/Level.js"></script>
+    <script type="text/javascript" src="js/Entity.js"></script>
+    <script type="text/javascript" src="js/Animation.js"></script>
+    <script type="text/javascript" src="js/Traits.js"></script>
+    <script type="text/javascript" src="entitys/Mario.js"></script>
+    <script type="text/javascript" src="entitys/Goomba.js"></script>
+    <script type="text/javascript" src="entitys/Koopa.js"></script>
+    <script type="text/javascript" src="entitys/Chance.js"></script>
+    <script type="text/javascript" src="js/Time.js"></script>
+    <script type="text/javascript" src="js/KeyboardState.js"></script>
+    <script type="text/javascript" src="js/Debug.js"></script>
+    <style type="text/css">
+        .container{
+            margin:0 auto;
+            width:641px;
+            height:481px;
+        }
+        #screen{
+            border:1px solid black;
+        }
+    </style>
+
+    <link rel="stylesheet" href="css/base.css">
+
+</head>
+<body>
+
+<div class="shortcut clearfix">
+    <div class="w">
+        <div class="shortcut-nav">
+            <ul>
+                <li><a href="index.html">Homepage</a></li>
+                <li><a href="game.html">Spiel</a></li>
+                <li><a href="help.html">Hilfe</a></li>
+                <li><a href="rank.html">Rank</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+<canvas id="screen" width="640" height="480"></canvas>
+</div>
+
+<script type="text/javascript" src="js/Main.js"></script>
+<audio autoplay="autoplay" loop="loop"  src="Sounds/Overworld.mp3">  
+
+</audio>
+
+</body>
+</html>

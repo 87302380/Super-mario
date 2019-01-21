@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /*css 初始化 */
-html, body, ul, li,  dl, dd, dt, p, h1, h2, h3, h4, h5, h6, form, fieldset, legend, img {
+html, body, ul, li,  dl, dd, dt, p, h3, h4, h5, h6, form, fieldset, legend, img {
     margin: 0;
     padding: 0;
 }
@@ -76,11 +76,6 @@ a:hover {
     /*text-decoration: underline;*/
 }
 
-h1, h2, h3, h4, h5, h6 {
-    text-decoration: none;
-    font-weight: normal;
-    font-size: 100%;
-}
 
 s, i, em {
     font-style: normal;

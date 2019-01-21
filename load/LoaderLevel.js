@@ -20,7 +20,7 @@ function setupEntities(levelSpec, level, entityFactory) {
     levelSpec.entities.forEach(({name, pos: [x, y]}) => {
         var createEntity = entityFactory[name];
         var entity = createEntity();
-        entity.pos.set(x, y);
+        entity.pos.set(x*16, y*16);
         level.entites.add(entity);
     });
 

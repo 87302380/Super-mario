@@ -3,19 +3,23 @@
     "rank":[
         {
             "name":"leichen",
-            "score":9999999
+            "score":100000000
         },
         {
-            "name":"CMA",
-            "score":1234
+            "name":"mario",
+            "score":90000000
         },
         {
             "name":"ZLB",
-            "score":342342
+            "score":8000000
         },
         {
-            "name":"xianyu",
-            "score":123
+            "name":"YaoYao",
+            "score":7900000
+        },
+        {
+            "name":"luis",
+            "score":7000000
         }
     ]
 }

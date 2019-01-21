@@ -8,7 +8,8 @@ class Jump extends Trait{
         this.requestTime = 0;
         this.gracePeriod = 0.1;
         this.speedBoost = 0.3;
-        this.velocity = 200;
+        this.velocity = 250;
+
     }
 
     get falling(){
@@ -27,9 +28,12 @@ class Jump extends Trait{
     }
 
     obstruct(entity, side){
+
         if (side === Sides.BOTTOM){
             this.ready = 1;
-        }else if (side === Sides.TOP) {
+        }else if (side === Sides.TOP ) {
+            this.cancel();
+        }else if (side === Sides.CHANCE){
             this.cancel();
         }
     }
@@ -118,7 +122,7 @@ class Walk extends Trait{
 class Stomper extends Trait{
     constructor() {
         super("stomper");
-        this.bounceSpeed = 200;
+        this.bounceSpeed = 250;
 
         this.onStomp = function () {
         }
@@ -191,7 +195,7 @@ class Solid extends Trait{
         if (side === Sides.BOTTOM) {
             entity.bounds.bottom = match.y1;
             entity.vel.y = 0;
-        } else if (side === Sides.TOP) {
+        } else if (side === Sides.TOP || side === Sides.CHANCE) {
             entity.bounds.top = match.y2;
             entity.vel.y = 0;
         } else if (side === Sides.LEFT) {
@@ -210,14 +214,9 @@ class PlayerController extends Trait{
         this.checkpoint = new Vec2(0, 0);
         this.player = null;
         this.score = 0;
+        this.level = 1;
         this.coins = 13;
-        this.input = null;
         this.time = 300;
-    }
-
-    setPlayerInput(input){
-        this.input = input;
-        console.log(this.input);
     }
 
     setPlayer(entity){
@@ -226,9 +225,14 @@ class PlayerController extends Trait{
         this.player.stomper.onStomp = () => {
             this.score += 100;
         }
+
+        this.player.behavior.hit = () => {
+            this.score += 100;
+        }
     }
 
     update(entity, deltaTime, level){
+
         if (!level.entites.has(this.player)){
             this.coins = this.player.killable.revive(this.coins);
             if (this.coins >= 0){
@@ -248,6 +252,22 @@ class PlayerController extends Trait{
             }
         }
 
-    }
+        if (this.player.pos.x > 5350){
+            this.coins = this.player.killable.revive(this.coins);
+            this.coins += 1 ;
+            this.player.pos.set(this.checkpoint.x, this.checkpoint.y);
+            level.entites.add(this.player);
+            this.level += 1;
+            }
+        }
 
+
+}
+
+class Stop extends Trait{
+    constructor() {
+        super("stop");
+        this.obstructs = true;
+
+    }
 }

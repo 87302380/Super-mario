@@ -4,6 +4,7 @@ const Sides = {
     BOTTOM: Symbol('bottom'),
     RIGHT: Symbol('left'),
     LEFT: Symbol('right'),
+    CHANCE: Symbol('chance'),
 };
 
 class Trait {

@@ -16,17 +16,22 @@ class Level{
     }
 
     update(deltaTime){
+
         this.entites.forEach(entity =>{
-            entity.update(deltaTime, this);
+            if (!entity.stop){
+                entity.update(deltaTime, this);
 
-            entity.pos.x += entity.vel.x * deltaTime ;
-            this.tileCollider.checkX(entity);
+                entity.pos.x += entity.vel.x * deltaTime ;
+                this.tileCollider.checkX(entity);
 
-            entity.pos.y += entity.vel.y * deltaTime ;
-            this.tileCollider.checkY(entity);
+                entity.pos.y += entity.vel.y * deltaTime ;
+                this.tileCollider.checkY(entity);
 
-            entity.vel.y += this.gravity * deltaTime;
+                entity.vel.y += this.gravity * deltaTime;
+            }else {
+                entity.update(deltaTime, this);
 
+            }
         });
 
         this.entites.forEach(entity =>{
